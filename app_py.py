@@ -81,39 +81,34 @@ if uploaded_file:
         mae = mean_absolute_error(test_df['rating'], predictions)
         return rmse, mae
 
-    # 🔘 Recommendation options
-    option = st.radio("Choose recommendation type:", ["Content-Based", "Collaborative"])
+    # 🔘 Step 1: Choose model
+    st.markdown("### 🔍 Step 1: Choose Recommendation Method")
+    model_choice = st.radio("Select a model:", ["Content-Based", "Collaborative"])
 
-    if option == "Content-Based":
+    # 🔘 Step 2: Evaluate accuracy
+    st.markdown("### 📏 Step 2: Evaluate Accuracy")
+    if st.button("Evaluate Accuracy"):
+        if model_choice == "Content-Based":
+            rmse, mae = evaluate_content_accuracy()
+            st.info(f"📊 Content-Based Accuracy:\nRMSE: {rmse:.3f} | MAE: {mae:.3f}")
+        else:
+            rmse, mae = evaluate_collaborative_accuracy()
+            st.info(f"📊 Collaborative Accuracy:\nRMSE: {rmse:.3f} | MAE: {mae:.3f}")
+
+    # 🔘 Step 3: Get recommendations
+    st.markdown("### 🎯 Step 3: Get Recommendations")
+    if model_choice == "Content-Based":
         course_id = st.number_input("Enter a Course ID you liked:", min_value=1)
-        if st.button("Recommend Similar Courses"):
+        if st.button("Get Recommendations"):
             results = recommend_similar_courses(course_id)
             st.write("Recommended Courses:")
             st.dataframe(results)
-
-            rmse, mae = evaluate_content_accuracy()
-            st.info(f"📊 Content-Based Accuracy:\nRMSE: {rmse:.3f} | MAE: {mae:.3f}")
-
-    elif option == "Collaborative":
+    else:
         user_id = st.number_input("Enter your User ID:", min_value=1)
-        if st.button("Recommend Top Courses"):
+        if st.button("Get Recommendations"):
             results = recommend_top_courses(user_id)
             st.write("Recommended Courses:")
             st.dataframe(results)
 
-            rmse, mae = evaluate_collaborative_accuracy()
-            st.info(f"📊 Collaborative Accuracy:\nRMSE: {rmse:.3f} | MAE: {mae:.3f}")
-
 else:
-    st.warning("Please upload a dataset to begin.")
-
-# 📊 Optional: Evaluate Accuracy Separately
-st.markdown("### 📏 Evaluate Model Accuracy")
-
-if st.button("Evaluate Accuracy"):
-    rmse_cb, mae_cb = evaluate_content_accuracy()
-    rmse_cf, mae_cf = evaluate_collaborative_accuracy()
-
-    st.success("✅ Accuracy Results")
-    st.write(f"**Content-Based Filtering**\n- RMSE: {rmse_cb:.3f}\n- MAE: {mae_cb:.3f}")
-    st.write(f"**Collaborative Filtering**\n- RMSE: {rmse_cf:.3f}\n- MAE: {mae_cf:.3f}")
+    st.warning("📂 Please upload a dataset to begin.")
