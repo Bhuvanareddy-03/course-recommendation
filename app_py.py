@@ -82,11 +82,11 @@ if uploaded_file:
         return rmse, mae
 
     # 🔘 Step 1: Choose model
-    st.markdown("### 🔍 Step 1: Choose Recommendation Method")
+    st.markdown("Choose Recommendation Method")
     model_choice = st.radio("Select a model:", ["Content-Based", "Collaborative"])
 
     # 🔘 Step 2: Evaluate accuracy
-    st.markdown("### 📏 Step 2: Evaluate Accuracy")
+    st.markdown(Evaluate Accuracy")
     if st.button("Evaluate Accuracy"):
         if model_choice == "Content-Based":
             rmse, mae = evaluate_content_accuracy()
@@ -96,7 +96,7 @@ if uploaded_file:
             st.info(f"📊 Collaborative Accuracy:\nRMSE: {rmse:.3f} | MAE: {mae:.3f}")
 
     # 🔘 Step 3: Get recommendations
-    st.markdown("### 🎯 Step 3: Get Recommendations")
+    st.markdown("Get Recommendations")
     if model_choice == "Content-Based":
         course_id = st.number_input("Enter a Course ID you liked:", min_value=1)
         if st.button("Get Recommendations"):
