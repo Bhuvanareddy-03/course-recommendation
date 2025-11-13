@@ -86,7 +86,7 @@ if uploaded_file:
     model_choice = st.radio("Select a model:", ["Content-Based", "Collaborative"])
 
     # 🔘 Step 2: Evaluate accuracy
-    st.markdown(Evaluate Accuracy")
+    st.markdown("Evaluate Accuracy")
     if st.button("Evaluate Accuracy"):
         if model_choice == "Content-Based":
             rmse, mae = evaluate_content_accuracy()
