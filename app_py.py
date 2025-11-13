@@ -106,3 +106,14 @@ if uploaded_file:
 
 else:
     st.warning("Please upload a dataset to begin.")
+
+# 📊 Optional: Evaluate Accuracy Separately
+st.markdown("### 📏 Evaluate Model Accuracy")
+
+if st.button("Evaluate Accuracy"):
+    rmse_cb, mae_cb = evaluate_content_accuracy()
+    rmse_cf, mae_cf = evaluate_collaborative_accuracy()
+
+    st.success("✅ Accuracy Results")
+    st.write(f"**Content-Based Filtering**\n- RMSE: {rmse_cb:.3f}\n- MAE: {mae_cb:.3f}")
+    st.write(f"**Collaborative Filtering**\n- RMSE: {rmse_cf:.3f}\n- MAE: {mae_cf:.3f}")
